@@ -31,11 +31,9 @@ public class RockPaperScissorsA {
 
         userVal = Integer.parseInt(stringUserVal);
 
-        for (int i = 0; i < 30; i++) {
-            compVal = rand.nextInt(3) + 1;
-            System.out.println(compVal);
-        }
-        
+        compVal = rand.nextInt(3) + 1;
+        System.out.println(compVal);
+
         if (compVal == 1 && userVal == 1) {
             System.out.println("It's a tie!");
         }
@@ -45,7 +43,7 @@ public class RockPaperScissorsA {
         if (compVal == 3 && userVal == 3) {
             System.out.println("It's a tie!");
         }
-        
+
         if (compVal == 1 && userVal == 2) {
             System.out.println("User wins! Paper wraps rock");
         }
@@ -67,9 +65,6 @@ public class RockPaperScissorsA {
         if (userVal == 4) {
             System.out.println("Nuclear Option! Everyone loses!!");
         }
-        
-        
-        
 
     }
 }
