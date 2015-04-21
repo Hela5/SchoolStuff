@@ -18,7 +18,7 @@ public class ProjectBlackJack {
         Scanner sc = new Scanner(System.in);
         Random r = new Random();
         int compCard1 = 0, compCard2 = 0, newUserSum = 0, newCompSum = 0, sumCompCards = 0;
-        int compCard3 = 0;
+        int compCard3 = 0, userCard3 = 0;
         boolean kickOut = false;
 
         System.out.println("Welcome to Andria's BlackJack Program!");
@@ -33,7 +33,7 @@ public class ProjectBlackJack {
         } else if (sumUserCards < 21) {
             compCard1 = 1 + r.nextInt(11);
             compCard2 = 1 + r.nextInt(11);
-            System.out.println("The dealer has a " + compCard1 + " showing and a hidden card.");
+            System.out.println("\nThe dealer has a " + compCard1 + " showing and a hidden card.");
             System.out.println("His total is hidden too.");
             sumCompCards = compCard1 + compCard2;
         } else {
@@ -41,12 +41,13 @@ public class ProjectBlackJack {
         }
 
         do {
-            System.out.println("Would you like to 'hit' or 'stay'?");
+            System.out.println("\nWould you like to 'hit' or 'stay'?");
             String userResponse = sc.next();
             if (userResponse.equals("hit")) {
-                int userCard3 = 1 + r.nextInt(11);
+                userCard3 = 1 + r.nextInt(11);
                 System.out.println("You get a card " + userCard3 + ".");
                 newUserSum = sumUserCards + userCard3;
+                sumUserCards = newUserSum;
                 System.out.println("You now have " + newUserSum + ".");
                 if (newUserSum > 21) {
                     System.out.println("Oops, too high. Dealer Wins.");
@@ -54,13 +55,14 @@ public class ProjectBlackJack {
                     System.out.println("Winner, Winner!");
                 }
             } else {
-                System.out.println("Dealer's turn.");
+                System.out.println("\nDealer's turn.");
                 System.out.println("Dealer's hidden card was a " + compCard2 + ".\nTheir total was " + sumCompCards);
                 if (sumCompCards < 21) {
-                    System.out.println("Dealer chooses to hit.");
+                    System.out.println("\nDealer chooses to hit.");
                     compCard3 = 1 + r.nextInt(11);
                     System.out.println("Dealer gets a card " + compCard3 + ".");
                     newCompSum = sumCompCards + compCard3;
+                    sumCompCards = newCompSum;
                     System.out.println("Dealer now has " + newCompSum + ".");
                     if (newCompSum > 21) {
                         System.out.println("Oops, too high. You Win!");
