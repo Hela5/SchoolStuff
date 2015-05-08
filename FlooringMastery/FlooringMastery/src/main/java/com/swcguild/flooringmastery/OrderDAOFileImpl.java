@@ -20,8 +20,9 @@ import java.util.Scanner;
  *
  * @author apprentice
  */
-public class OrderDAO {
-
+public class OrderDAOFileImpl implements OrderDAOIF {
+    
+    
     HashMap<Integer, Order> orders = new HashMap<>();
 //    Order nOrder = new Order();
 //    String date = nOrder.getDate();
@@ -61,7 +62,8 @@ public class OrderDAO {
         out.flush();
         out.close();
     }
-
+    
+    @Override
     public void loadOrdersList(String currentDate) throws FileNotFoundException {
         Scanner sc = new Scanner(new BufferedReader(new FileReader("Order_" + currentDate + ".txt")));
         String currentLine;
@@ -90,6 +92,7 @@ public class OrderDAO {
 
     }
 
+    @Override
     public void writeOrdersList(String currentDate) throws IOException {
         PrintWriter out = new PrintWriter(new FileWriter("Order_" + currentDate + ".txt"));
         ArrayList<Integer> keys = this.displayOrders();
@@ -113,6 +116,7 @@ public class OrderDAO {
         out.close();
     }
 
+    @Override
     public void addOrder(Order order) {
         order.setOrderNum(orderNum);
         orders.put(orderNum, order);
@@ -128,10 +132,12 @@ public class OrderDAO {
         
     }
 
+    @Override
     public Order removeOrder(int orderNum) {
         return orders.remove(orderNum);
     }
 
+    @Override
     public ArrayList displayOrders() {
         Collection<Order> orderList = orders.values();
         ArrayList<Order> list = new ArrayList<>();
@@ -139,6 +145,7 @@ public class OrderDAO {
         return list;
     }
 
+    @Override
     public Order getOrder(int orderNum) {
         return orders.get(orderNum);
     }
@@ -150,5 +157,5 @@ public class OrderDAO {
     public void setCanSave(boolean canSave) {
         this.canSave = canSave;
     }
-
+    
 }

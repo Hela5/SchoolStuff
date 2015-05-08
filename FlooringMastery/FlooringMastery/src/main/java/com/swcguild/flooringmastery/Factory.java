@@ -5,6 +5,8 @@
  */
 package com.swcguild.flooringmastery;
 
+import java.io.FileNotFoundException;
+
 /**
  *
  * @author apprentice
@@ -14,41 +16,80 @@ public class Factory {
     Order order = new Order();
     OrderDAO orderD = new OrderDAO();
     ConsoleIO cons = new ConsoleIO();
-    TaxDAO taxD = new TaxDAOFileImpl();
-    ProductDAO prodD = new ProductDAOFileImpl();
+    TaxDAOFileImpl taxD = new TaxDAOFileImpl();
+    ProductDAOFileImpl prodD = new ProductDAOFileImpl();
 
-    public Order createOrder() {
-
-        String firstName = cons.queryUserString("Please enter the first name of the customer: ");
-        String lastName = cons.queryUserString("Please enter the last name of the customer: ");
-        String state = cons.queryUserString("Enter the state of residence: ");
-//        double taxRate = // get from taxDAO
-        String productType = cons.queryUserString("Enter product type desired: ");
-        double area = cons.queryUserDouble("Enter area to be covered: ");
-//        double costPSF = accessed from ProductDAO
-//        double laborCostPSF = accessed from ProductDAO
-//        double materialCost = accessed from ProductDAO
-//        double laborCost = PRODDAO
-//        double tax = from TaxDao
-//        double total = from businesslogic
+    public Order createOrder(String firstName, String lastName, double area, String productType, String state) {
+        try {
+        taxD.loadTaxInfo();
+        prodD.loadProductInfo();
+        } catch (FileNotFoundException e) {
+            cons.displayUserString(e.getMessage());
+        }
+        
+        
+        double taxRate = taxRate(state);
+        double materialCostPSF = materialCostPSF(productType);
+        double laborCostPSF = laborCostPSF(productType);
+        double materialCost = materialCost(area, materialCostPSF);
+        double laborCost = laborCost(area, laborCostPSF);
+        double tax = tax(area, materialCost, laborCost);
+        double total = total(tax, materialCost, laborCost);
 
         Order currentOrder = new Order();
         currentOrder.setCustomerFirstName(firstName);
         currentOrder.setCustomerLastName(lastName);
         currentOrder.setState(state);
-//        currentOrder.setTaxRate(taxRate);
+        currentOrder.setTaxRate(taxRate);
         currentOrder.setProductType(productType);
         currentOrder.setArea(area);
-//        currentOrder.setCostPSF(costPSF);
-//        currentOrder.setLaborCostPSF(laborCostPSF);
-//        currentOrder.setMaterialCost(materialCost);
-//        currentOrder.setLaborCost(laborCost);
-//        currentOrder.setTax(tax);
-//        currentOrder.setTotal(total);
-        orderD.addOrder(currentOrder);
+        currentOrder.setCostPSF(materialCostPSF);
+        currentOrder.setLaborCostPSF(laborCostPSF);
+        currentOrder.setMaterialCost(materialCost);
+        currentOrder.setLaborCost(laborCost);
+        currentOrder.setTax(tax);
+        currentOrder.setTotal(total);
+//        orderD.addOrder(currentOrder);
 
-        cons.displayUserString("Order has been created.");
+        cons.displayUserString("Order has been created.\n");
         return currentOrder;
     }
+
+    private double taxRate(String state) {
+        double taxRate = taxD.getTaxRate(state);
+        return taxRate;
+    }
+
+    private double materialCostPSF(String productType) {
+        double costPSF = prodD.getCostPSF(productType);
+        return costPSF;
+    }
+
+    private double laborCostPSF(String productType) {
+        double lbc = prodD.getLaborCostPSF(productType);
+        return lbc;
+    }
+
+    private double materialCost(double area, double costPSF) {
+        double mc = area * costPSF;
+        return mc;
+    }
+
+    private double laborCost(double area, double laborCostPSF) {
+        double lc = area * laborCostPSF;
+        return lc;
+    }
+    
+    private double tax(double taxRate, double materialCost, double laborCost) {
+        double t1 = (materialCost + laborCost) * taxRate/100;
+        return t1;
+    }
+    
+    private double total(double tax, double materialCost, double laborCost) {
+        double tT = tax + materialCost + laborCost;
+        return tT;
+    }
+    
+    
 
 }

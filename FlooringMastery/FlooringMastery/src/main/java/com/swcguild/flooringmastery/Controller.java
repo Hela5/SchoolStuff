@@ -5,10 +5,12 @@
  */
 package com.swcguild.flooringmastery;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import static java.util.Collections.list;
+import java.util.Scanner;
 
 /**
  *
@@ -21,67 +23,54 @@ public class Controller {
     boolean keepRunning = true;
     OrderDAO orderD = new OrderDAO();
     Factory fact = new Factory();
+    private String currentDate;
 
     public void run() {
-        Order bobby = new Order();
-//        bobby.setOrderNum(1);
-        bobby.setDate("01012014");
-        bobby.setCustomerFirstName("Bob");
-        bobby.setCustomerLastName("Bobby");
-        bobby.setState("OH");
-        bobby.setTaxRate(6.25);
-        bobby.setProductType("carpet");
-        bobby.setArea(20.0);
-        bobby.setCostPSF(2.25);
-        bobby.setLaborCostPSF(2.10);
-        bobby.setMaterialCost(45.0);
-        bobby.setLaborCost(42.0);
-        bobby.setTax(5.4375);
-        bobby.setTotal(92.44);
-        orderD.addOrder(bobby);
 
-        Order sally = new Order();
-//        sally.setOrderNum(2);
-        sally.setDate("01012014");
-        sally.setCustomerFirstName("Sal");
-        sally.setCustomerLastName("Sally");
-        sally.setState("PA");
-        sally.setTaxRate(6.75);
-        sally.setProductType("Wood");
-        sally.setArea(20.0);
-        sally.setCostPSF(5.15);
-        sally.setLaborCostPSF(4.75);
-        sally.setMaterialCost(103.0);
-        sally.setLaborCost(95.0);
-        sally.setTax(13.365);
-        sally.setTotal(211.365);
-        orderD.addOrder(sally);
+        try {
+            orderD.loadConfig();
+            
+        } catch (FileNotFoundException ex) {
+            cons.displayUserString(ex.getMessage());
+        }
 
 //loads Taxes.txt (tax file)        
-                TaxDAOFileImpl f = new TaxDAOFileImpl();
+        TaxDAOFileImpl f = new TaxDAOFileImpl();
         try {
             f.loadTaxInfo();
         } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
+            cons.displayUserString(ex.getMessage());
         }
 
-        
-        
+//loads Product.txt (product file)
+        ProductDAOFileImpl p = new ProductDAOFileImpl();
+        try {
+            p.loadProductInfo();
+        } catch (FileNotFoundException ex) {
+            cons.displayUserString(ex.getMessage());
+        }
+
+        currentDate = cons.queryUserString("Please enter the date in the format of: MMDDYYYY");
+        try {
+            orderD.loadOrdersList(currentDate);
+        } catch (FileNotFoundException e) {
+            cons.displayUserString(e.getMessage());
+        }
         do {
             displayMenu();
             int userChoice = cons.queryUserInt("Please choose from the listed options above. ");
             switch (userChoice) {
                 case 1:
+
                     cons.displayUserString("Let's find your order...");
                     displayOrders();
-
                     break;
                 case 2:
                     cons.displayUserString("Let's add an order...");
                     addOrder();
+
                     break;
                 case 3:
-                    listAllStates();
 
                     break;
                 case 4:
@@ -89,8 +78,12 @@ public class Controller {
                     removeOrder();
                     break;
                 case 5:
+                    if (orderD.isCanSave()==false) {
+                    cons.displayUserString("Config mode: can't save.");
+                    
+                    break;} 
                     try {
-                        orderD.writeOrdersList();
+                        orderD.writeOrdersList(currentDate);
                     } catch (IOException ex) {
                         cons.displayUserString(ex.getMessage());
                     }
@@ -99,13 +92,13 @@ public class Controller {
                     cons.displayUserString("Thank you for your business today.");
                     keepRunning = false;
                     break;
-                case 7:
-                    try {
-                        orderD.loadOrdersList();
-                    } catch (FileNotFoundException ex) {
-                        cons.displayUserString(ex.getMessage());
-                    }
-                    break;
+//                case 7:
+//                    try {
+//                        orderD.loadOrdersList();
+//                    } catch (FileNotFoundException ex) {
+//                        cons.displayUserString(ex.getMessage());
+//                    }
+//                    break;
                 default:
                     cons.displayUserString("Sorry, not a valid option.\nTry again.");
             }
@@ -130,7 +123,12 @@ public class Controller {
     }
 
     private void displayOrders() {
-//        String searchDate = cons.queryUserString("Enter date of invoice you're searching for: ");
+        String searchDate = cons.queryUserString("Enter date of invoice you're searching for: ");
+        try {
+            orderD.loadOrdersList(searchDate);
+        } catch (FileNotFoundException e) {
+            cons.displayUserString(e.getMessage());
+        }
         ArrayList<Order> allOrders = orderD.displayOrders();
 
         for (Order currentOrder : allOrders) {
@@ -151,8 +149,16 @@ public class Controller {
     }
 
     private void addOrder() {
-        fact.createOrder();
+        String firstName = cons.queryUserString("Please enter the first name of the customer: ");
+        String lastName = cons.queryUserString("Please enter the last name of the customer: ");
+        String state = cons.queryUserString("Enter the state of residence: ");
+        state = state.toUpperCase();
 
+        String productType = cons.queryUserString("Enter product type desired: ");
+        productType = productType.toUpperCase();
+        double area = cons.queryUserDouble("Enter area to be covered: ");
+
+        orderD.addOrder(fact.createOrder(firstName, lastName, area, productType, state));
     }
 
     private void removeOrder() {
@@ -171,4 +177,5 @@ public class Controller {
         }
 
     }
+
 }

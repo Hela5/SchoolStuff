@@ -5,17 +5,14 @@
  */
 package com.swcguild.flooringmastery;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Scanner;
 
 /**
  *
  * @author apprentice
  */
-public class App {
-
-    public static void main(String[] args) {
-
-
-        Controller cont = new Controller();
-        cont.run();
-    }
+public class configDAO {
+    
 }

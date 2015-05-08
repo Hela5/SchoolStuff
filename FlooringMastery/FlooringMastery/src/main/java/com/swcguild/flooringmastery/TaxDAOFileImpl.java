@@ -23,7 +23,7 @@ public class TaxDAOFileImpl implements TaxDAO {
     public final String TAXES = "Taxes.txt";
     public final static String DELIMITER = ",";
 
-    private HashMap<String, Tax> taxRate = new HashMap<>();
+    private HashMap<String, Double> taxRate = new HashMap<>();
 
     public void loadTaxInfo() throws FileNotFoundException {
         Scanner sc = new Scanner(new BufferedReader(new FileReader(TAXES)));
@@ -33,10 +33,11 @@ public class TaxDAOFileImpl implements TaxDAO {
         while (sc.hasNextLine()) {
             currentLine = sc.nextLine();
             currentTokens = currentLine.split(DELIMITER);
-            Tax currentTaxDTO = new Tax();
-            currentTaxDTO.setState(currentTokens[0]);
-            currentTaxDTO.setTaxRate(Double.parseDouble(currentTokens[1]));
-            taxRate.put(currentTaxDTO.getState(), currentTaxDTO);
+//            Tax currentTaxDTO = new Tax();
+//            currentTaxDTO.setState(currentTokens[0]);
+//            currentTaxDTO.setTaxRate(Double.parseDouble(currentTokens[1]));
+//            taxRate.put(currentTaxDTO.getState(), currentTaxDTO);
+            taxRate.put(currentTokens[0].toUpperCase(), Double.parseDouble(currentTokens[1]));
         }
         sc.close();
 
@@ -44,16 +45,22 @@ public class TaxDAOFileImpl implements TaxDAO {
 
     @Override
     public Double getTaxRate(String state) {
-        Tax tDTO = new Tax();
-        tDTO = taxRate.get(state);
-        return tDTO.getTaxRate();
+//        Tax tDTO = new Tax();
+//        tDTO = taxRate.get(state);
+//        return tDTO.getTaxRate();
+        return taxRate.get(state);
+        
+//        String rate = taxRate.get(state);
+        
+        
+        
 
     }
 
     @Override
     public ArrayList getStates() {
-        Collection<Tax> orderList = taxRate.values();
-        ArrayList<Tax> list = new ArrayList<>();
+        Collection<String> orderList = taxRate.keySet();
+        ArrayList<String> list = new ArrayList<>();
         list.addAll(orderList);
        return list;
     }

@@ -35,7 +35,7 @@ public class ProductDAOFileImpl implements ProductDAO {
             currentLine = sc.nextLine();
             currentTokens = currentLine.split(DELIMITER);
             Product currentProductDTO = new Product();
-            currentProductDTO.setProductType(currentTokens[0]);
+            currentProductDTO.setProductType(currentTokens[0].toUpperCase());
             currentProductDTO.setCostPSF(Double.parseDouble(currentTokens[1]));
             currentProductDTO.setLaborCostPSF(Double.parseDouble(currentTokens[2]));
             productInfo.put(currentProductDTO.getProductType(), currentProductDTO);
