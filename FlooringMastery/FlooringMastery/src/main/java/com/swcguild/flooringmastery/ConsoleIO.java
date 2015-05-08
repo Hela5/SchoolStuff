@@ -56,13 +56,24 @@ public class ConsoleIO {
         }
         return response;
     }
-    
+
     public double queryUserDouble(String queryMessage) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println(queryMessage);
-        return sc.nextDouble();
+        double num = 0.0;
+        boolean exxx;
+        do {
+            exxx = false;
+            try {
+                Scanner sc = new Scanner(System.in);
+                System.out.println(queryMessage);
+                num = sc.nextDouble();
+            } catch (Exception e) {
+                exxx = true;
+            }
+        } while (exxx);
+        return num;
+
     }
-    
+
     public double queryUserDouble(String queryMessage, double inputMin, double inputMax) {
         Scanner sc = new Scanner(System.in);
         System.out.println(queryMessage);
@@ -75,8 +86,8 @@ public class ConsoleIO {
         }
         return response;
     }
-    
-    public void displayUserString(String userMessage){
-        System.out.println(userMessage);    
+
+    public void displayUserString(String userMessage) {
+        System.out.println(userMessage);
     }
 }

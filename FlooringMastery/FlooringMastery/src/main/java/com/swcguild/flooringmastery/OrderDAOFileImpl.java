@@ -24,10 +24,8 @@ public class OrderDAOFileImpl implements OrderDAOIF {
     
     
     HashMap<Integer, Order> orders = new HashMap<>();
-//    Order nOrder = new Order();
-//    String date = nOrder.getDate();
-//    Controller contro = new Controller();
-//    String date = contro.getDate();
+
+    
     ConsoleIO cons = new ConsoleIO();
     private boolean canSave = true;
 
@@ -37,7 +35,7 @@ public class OrderDAOFileImpl implements OrderDAOIF {
 
     public void loadConfig() throws FileNotFoundException {
         Scanner sc = new Scanner(new BufferedReader(new FileReader("config.txt")));
-        startingNumber = 0;
+
         String mode = "";
 
         while (sc.hasNextLine()) {
@@ -126,8 +124,6 @@ public class OrderDAOFileImpl implements OrderDAOIF {
          } catch (IOException ex) {
              cons.displayUserString(ex.getMessage());
          }
-        
-        
         
         
     }

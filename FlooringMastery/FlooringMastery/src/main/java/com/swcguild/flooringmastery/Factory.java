@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 public class Factory {
 
     Order order = new Order();
-    OrderDAO orderD = new OrderDAO();
+    OrderDAOIF orderD = new OrderDAOFileImpl();
     ConsoleIO cons = new ConsoleIO();
     TaxDAOFileImpl taxD = new TaxDAOFileImpl();
     ProductDAOFileImpl prodD = new ProductDAOFileImpl();

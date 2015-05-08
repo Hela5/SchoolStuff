@@ -21,15 +21,16 @@ public class Controller {
     ConsoleIO cons = new ConsoleIO();
     Order order = new Order();
     boolean keepRunning = true;
-    OrderDAO orderD = new OrderDAO();
+    OrderDAOIF orderD = new OrderDAOFileImpl();
     Factory fact = new Factory();
     private String currentDate;
+    TaxDAO taxD = new TaxDAOFileImpl();
 
     public void run() {
 
         try {
             orderD.loadConfig();
-            
+
         } catch (FileNotFoundException ex) {
             cons.displayUserString(ex.getMessage());
         }
@@ -50,7 +51,34 @@ public class Controller {
             cons.displayUserString(ex.getMessage());
         }
 
-        currentDate = cons.queryUserString("Please enter the date in the format of: MMDDYYYY");
+        boolean wrongNumbers = false;
+        boolean notADateFool = true;
+        do {
+
+            currentDate = cons.queryUserString("Please enter the date in the format of: MMDDYYYY");
+
+            if (currentDate.length() != 8) {
+                notADateFool = true;
+                cons.displayUserString("Please make sure the date is in correct format");
+            } else if (currentDate.length() == 8) {
+                notADateFool = false;
+            }
+
+            cons.displayUserString("Make sure you're using a real date.");
+            String month = currentDate.substring(0, 2);
+            String day = currentDate.substring(2, 4);
+            String year = currentDate.substring(4, 8);
+            wrongNumbers = false;
+            if (Integer.parseInt(month) < 01 || Integer.parseInt(month) > 12) {
+                wrongNumbers = true;
+            } else if (Integer.parseInt(day) < 01 || Integer.parseInt(day) > 31) {
+                wrongNumbers = true;
+            } else if (Integer.parseInt(year) < 1900 || Integer.parseInt(year) > 2020) {
+                wrongNumbers = true;
+            }
+
+        } while (wrongNumbers || notADateFool);
+
         try {
             orderD.loadOrdersList(currentDate);
         } catch (FileNotFoundException e) {
@@ -62,43 +90,38 @@ public class Controller {
             switch (userChoice) {
                 case 1:
 
-                    cons.displayUserString("Let's find your order...");
+                    cons.displayUserString("Let's find your order...\n");
                     displayOrders();
                     break;
                 case 2:
-                    cons.displayUserString("Let's add an order...");
+                    cons.displayUserString("Let's add an order...\n");
                     addOrder();
 
                     break;
                 case 3:
-
+                    cons.displayUserString("Edit function is currently under construction.\n");
                     break;
                 case 4:
-                    cons.displayUserString("Let's remove an order...");
+                    cons.displayUserString("Let's remove an order...\n");
                     removeOrder();
                     break;
                 case 5:
-                    if (orderD.isCanSave()==false) {
-                    cons.displayUserString("Config mode: can't save.");
-                    
-                    break;} 
+                    if (orderD.isCanSave() == false) {
+                        cons.displayUserString("Config mode: can't save.\n");
+
+                        break;
+                    }
                     try {
                         orderD.writeOrdersList(currentDate);
                     } catch (IOException ex) {
                         cons.displayUserString(ex.getMessage());
                     }
+                    cons.displayUserString("\nChanges have been saved.\n");
                     break;
                 case 6:
-                    cons.displayUserString("Thank you for your business today.");
+                    cons.displayUserString("\nThank you for your business today.");
                     keepRunning = false;
                     break;
-//                case 7:
-//                    try {
-//                        orderD.loadOrdersList();
-//                    } catch (FileNotFoundException ex) {
-//                        cons.displayUserString(ex.getMessage());
-//                    }
-//                    break;
                 default:
                     cons.displayUserString("Sorry, not a valid option.\nTry again.");
             }
@@ -132,6 +155,7 @@ public class Controller {
         ArrayList<Order> allOrders = orderD.displayOrders();
 
         for (Order currentOrder : allOrders) {
+            cons.displayUserString("-------------------------------------------");
             cons.displayUserString("Order ID: " + currentOrder.getOrderNum());
             cons.displayUserString("Name: " + currentOrder.getCustomerFirstName() + " " + currentOrder.getCustomerLastName());
             cons.displayUserString("State: " + currentOrder.getState());
@@ -147,16 +171,61 @@ public class Controller {
 
         }
     }
+    boolean notState = true;
+    boolean notProductType = true;
+    boolean notAcceptable = true;
 
     private void addOrder() {
+
         String firstName = cons.queryUserString("Please enter the first name of the customer: ");
         String lastName = cons.queryUserString("Please enter the last name of the customer: ");
-        String state = cons.queryUserString("Enter the state of residence: ");
-        state = state.toUpperCase();
+        String state;
+        do {
+//            String secondChoice;
+            state = cons.queryUserString("Enter the state in which the customer wants service: ");
+            state = state.toUpperCase();
 
-        String productType = cons.queryUserString("Enter product type desired: ");
-        productType = productType.toUpperCase();
-        double area = cons.queryUserDouble("Enter area to be covered: ");
+//            secondChoice = cons.queryUserString("Sorry, not a valid state.\nPlease choose from the following states: OH, PA, MI, IN");
+            if (state.equals("OH")) {
+                notState = false;
+            } else if (state.equals("PA")) {
+                notState = false;
+            } else if (state.equals("MI")) {
+                notState = false;
+            } else if (state.equals("IN")) {
+                notState = false;
+
+            }
+        } while (notState);
+
+        String productType;
+
+        do {
+
+            productType = cons.queryUserString("Enter product type desired: ");
+            productType = productType.toUpperCase();
+
+            if (productType.equals("CARPET")) {
+                notProductType = false;
+            } else if (productType.equals("LAMINATE")) {
+                notProductType = false;
+            } else if (productType.equals("TILE")) {
+                notProductType = false;
+            } else if (productType.equals("WOOD")) {
+                notProductType = false;
+            }
+
+        } while (notProductType);
+
+        double area;
+        do {
+
+            area = cons.queryUserDouble("Enter area to be covered: ");
+            if (area > 0) {
+                notAcceptable = false;
+
+            }
+        } while (notAcceptable);
 
         orderD.addOrder(fact.createOrder(firstName, lastName, area, productType, state));
     }
@@ -169,8 +238,8 @@ public class Controller {
     }
 
     private void listAllStates() {
-        TaxDAOFileImpl tDFI = new TaxDAOFileImpl();
-        ArrayList<String> states = tDFI.getStates();
+
+        ArrayList<String> states = taxD.getStates();
 
         for (String currentState : states) {
             cons.displayUserString(currentState);
