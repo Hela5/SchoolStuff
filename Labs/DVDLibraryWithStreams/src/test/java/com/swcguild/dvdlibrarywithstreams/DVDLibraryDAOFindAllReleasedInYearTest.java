@@ -6,9 +6,11 @@
 package com.swcguild.dvdlibrarywithstreams;
 
 import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAO;
+import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAOFileImpl;
 import com.swcguild.dvdlibrarywithstreamsdto.DVD;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -78,7 +80,31 @@ public class DVDLibraryDAOFindAllReleasedInYearTest {
     @After
     public void tearDown() {
     }
-//
-//    @Test
-//    public void
+
+    @Test
+    public void findAllReleasedInYearTest1() {
+        dao = new DVDLibraryDAOFileImpl();
+        
+        dao.addDVD(d1);
+        List result = dao.findAllMoviesReleasedInYear(d1.getReleaseDate());
+        assertEquals(1, result.size());
+        
+        dao.addDVD(d2);
+        dao.addDVD(d3);
+        result = dao.findAllMoviesReleasedInYear(d3.getReleaseDate());
+        assertEquals(1, result.size());
+        result = dao.findAllMoviesReleasedInYear(d2.getReleaseDate());
+        assertEquals(2, result.size());
+        
+    }
+    
+    @Test
+    public void findAllReleasedInNullYearTest() {
+        dao = new DVDLibraryDAOFileImpl();
+        
+        dao.addDVD(d1);
+        List result = dao.findAllMoviesReleasedInYear(null);
+        assertEquals(0, result.size());
+        
+    }
 }

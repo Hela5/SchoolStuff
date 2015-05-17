@@ -6,6 +6,7 @@
 package com.swcguild.dvdlibrarywithstreams;
 
 import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAO;
+import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAOFileImpl;
 import com.swcguild.dvdlibrarywithstreamsdto.DVD;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -78,10 +79,24 @@ public class DVDLibraryDAOLoadWriteLibraryTest {
     @After
     public void tearDown() {
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    
+    @Test
+    public void loadWriteLibTest() throws Exception {
+        dao = new DVDLibraryDAOFileImpl();
+        
+        dao.addDVD(d1);
+        dao.writeLibrary();
+        dao.loadLibrary();
+        DVD result = dao.getDVD(d1.getiD());
+        assertEquals(d1, result);
+        
+//        dao.addDVD(d2);
+//        dao.addDVD(d3);
+//        dao.writeLibrary();
+//        dao.loadLibrary();
+//        result = dao.getDVD(d3.getiD());
+//        assertEquals(d3, result);
+        
+    }
+    
 }

@@ -6,6 +6,7 @@
 package com.swcguild.dvdlibrarywithstreams;
 
 import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAO;
+import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAOFileImpl;
 import com.swcguild.dvdlibrarywithstreamsdto.DVD;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -78,9 +79,29 @@ public class DVDLibraryDAOAverageAgeOfMoviesTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void averageAgeMovieRegTest() {
+        dao = new DVDLibraryDAOFileImpl();
+        
+        dao.addDVD(d1);
+        double result = dao.averageAgeOfMovies();
+        assertEquals(16, result, 0.001);
+        
+        dao.addDVD(d2);
+        dao.addDVD(d3);
+        result = dao.averageAgeOfMovies();
+        assertEquals(11, result, 0.001);
+        
+    }
+    
+//    @Test
+//    public void averageAgeNullTest() {
+//        dao = new DVDLibraryDAOFileImpl();
+//        
+//        dao.addDVD(d1);
+//        d1.setReleaseDate(null);
+//        double result = dao.averageAgeOfMovies();
+//        assertEquals(0, result, 0.001);
+//        
+//    }
 }

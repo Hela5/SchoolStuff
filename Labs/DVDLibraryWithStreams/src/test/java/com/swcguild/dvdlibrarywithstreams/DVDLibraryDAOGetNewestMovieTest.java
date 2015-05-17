@@ -6,9 +6,11 @@
 package com.swcguild.dvdlibrarywithstreams;
 
 import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAO;
+import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAOFileImpl;
 import com.swcguild.dvdlibrarywithstreamsdto.DVD;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -78,9 +80,29 @@ public class DVDLibraryDAOGetNewestMovieTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void getNewestMovieTest1() {
+        dao = new DVDLibraryDAOFileImpl();
+        
+        dao.addDVD(d3);
+        List fromDAO = dao.getNewestMovie();
+        assertEquals(1, fromDAO.size());
+        
+        dao.addDVD(d1);
+        dao.addDVD(d2);
+        fromDAO = dao.getNewestMovie();
+        assertEquals(1, fromDAO.size());
+        
+    }
+    
+//    @Test
+//    public void getNewestNullMovieTest() {
+//        dao = new DVDLibraryDAOFileImpl();
+//        
+//        dao.addDVD(d3);
+//        d3.setReleaseDate(null);
+//        List fromDAO = dao.getNewestMovie();
+//        assertEquals(0, fromDAO.size());
+//               
+//    }
 }

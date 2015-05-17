@@ -8,6 +8,7 @@ package com.swcguild.dvdlibrarywithstreams.dao;
 import com.swcguild.dvdlibrarywithstreamsdto.DVD;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,16 +22,18 @@ public interface DVDLibraryDAO {
     public void writeLibrary() throws IOException;
 
     public DVD getDVD(int iD);
+    
+    public List getDVD(String title);
 
     public void addDVD(DVD dvd);
 
     public DVD removeDVD(int iD);
 
-    public String[] returnAllDVDs();
+    public List returnAllDVDs();
 
     public void editDVD(int iD, DVD newDVD);
     
-    public List<DVD> findAllMoviesReleasedInYear(Long year);
+    public List<DVD> findAllMoviesReleasedInYear(LocalDate year);
     
     public List<DVD> findAllMoviesWithRating(String rating);
     

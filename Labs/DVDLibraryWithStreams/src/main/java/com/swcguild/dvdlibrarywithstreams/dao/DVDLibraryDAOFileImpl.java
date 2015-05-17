@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -67,16 +68,20 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
     @Override
     public void writeLibrary() throws IOException {
         PrintWriter out = new PrintWriter(new FileWriter(LIBRARY_FILE));
-        String[] keys = this.returnAllDVDs();
-        for (int i = 0; i < keys.length; i++) {
-            DVD currentDVD = this.getDVD(Integer.parseInt(keys[i]));
+        List<Integer> keys = this.returnAllDVDs();
+//        Object[] strArray = new String[keys.size()];
+//        strArray = keys.toArray(strArray);
+        int[] iDList = new int[keys.size()];
+        iDList = keys.toArray(iDList);
+        for (int i = 0; i < keys.size(); i++) {
+            DVD currentDVD = this.getDVD(keys[i]));
             out.print(currentDVD.getiD() + DELIMITER
                     + currentDVD.getTitle() + DELIMITER
                     + currentDVD.getReleaseDate() + DELIMITER
                     + currentDVD.getRating() + DELIMITER
                     + currentDVD.getDirectorName() + DELIMITER
                     + currentDVD.getStudio());
-            for(String rating: currentDVD.getUserRating()) {
+            for (String rating : currentDVD.getUserRating()) {
                 out.print(rating + "++");
             }
             out.print("++");
@@ -90,6 +95,15 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
     public DVD getDVD(int iD) {
         return dvds.get(iD);
     }
+    
+      @Override
+    public List getDVD(String title) {
+        return dvds.values()
+                .stream()
+                .filter(s -> s.getTitle().equals(title))
+                .collect(Collectors.toList());    
+    }
+    
 
     @Override
     public void addDVD(DVD dvd) {
@@ -104,17 +118,23 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
     }
 
     @Override
-    public String[] returnAllDVDs() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List returnAllDVDs() {
+        Set<Integer> iDs = dvds.keySet();
+        List<Integer> dvdArray = new ArrayList(iDs.size());
+        for (Integer currentID : iDs) {
+            dvdArray.add(currentID);
+        }
+        return dvdArray;
     }
 
     @Override
     public void editDVD(int iD, DVD newDVD) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getDVD(iD);
+        dvds.replace(iD, newDVD);
     }
 
     @Override
-    public List<DVD> findAllMoviesReleasedInYear(Long year) {
+    public List<DVD> findAllMoviesReleasedInYear(LocalDate year) {
         return dvds.values()
                 .stream()
                 .filter(s -> s.getReleaseDate().equals(year))
@@ -148,9 +168,14 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
 
     @Override
     public List<DVD> getNewestMovie() {
+        long youngestAge = dvds.values()
+                .stream()
+                .mapToLong(DVD::getDVDAge)
+                .min()
+                .getAsLong();
         return dvds.values()
                 .stream()
-                .filter(s -> s.getDVDAge() <= 0)
+                .filter(s -> s.getDVDAge() == youngestAge)
                 .collect(Collectors.toList());
     }
 
@@ -176,5 +201,7 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
                 .average()
                 .getAsDouble();
     }
+
+  
 
 }

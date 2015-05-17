@@ -6,6 +6,7 @@
 package com.swcguild.dvdlibrarywithstreams;
 
 import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAO;
+import com.swcguild.dvdlibrarywithstreams.dao.DVDLibraryDAOFileImpl;
 import com.swcguild.dvdlibrarywithstreamsdto.DVD;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -78,9 +79,18 @@ public class DVDLibraryDAOAverageNumNotesTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void averageNumNotesTest(){
+        dao = new DVDLibraryDAOFileImpl();
+        
+        dao.addDVD(d3);
+        double result = dao.averageNumPersonalNotes();
+        assertEquals(1, result, 0.001);
+        
+        dao.addDVD(d1);
+        dao.addDVD(d2);
+        result = dao.averageNumPersonalNotes();
+        assertEquals(2, result, 0.001);
+        
+    }
 }
