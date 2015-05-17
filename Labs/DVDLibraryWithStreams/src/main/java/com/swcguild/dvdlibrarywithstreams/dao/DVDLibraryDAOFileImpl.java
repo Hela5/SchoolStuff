@@ -65,16 +65,16 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
         iD++;
     }
 
+    ///REVIEW: You have direct access to your dvds collection. There is no need to use
+    // get functions to pull data. You can simply read data using enhanced for loop
+    // using dvd.values() and put all of those values into the file.
     @Override
     public void writeLibrary() throws IOException {
         PrintWriter out = new PrintWriter(new FileWriter(LIBRARY_FILE));
         List<Integer> keys = this.returnAllDVDs();
-//        Object[] strArray = new String[keys.size()];
-//        strArray = keys.toArray(strArray);
-        int[] iDList = new int[keys.size()];
-        iDList = keys.toArray(iDList);
+
         for (int i = 0; i < keys.size(); i++) {
-            DVD currentDVD = this.getDVD(keys[i]));
+            DVD currentDVD = this.getDVD(keys.get(i));
             out.print(currentDVD.getiD() + DELIMITER
                     + currentDVD.getTitle() + DELIMITER
                     + currentDVD.getReleaseDate() + DELIMITER
