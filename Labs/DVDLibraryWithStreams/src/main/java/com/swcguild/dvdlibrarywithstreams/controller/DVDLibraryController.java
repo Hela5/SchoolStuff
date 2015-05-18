@@ -23,7 +23,8 @@ public class DVDLibraryController {
     DVDLibraryDAO dao = new DVDLibraryDAOFileImpl();
     DVD dvd = new DVD();
 
-    public void run() {
+    public void run() throws Exception {
+        dao.loadLibrary();
         int userChoice = 0;
 
         do {
@@ -72,6 +73,7 @@ public class DVDLibraryController {
                     cons.displayUserString("Not a valid option, please try again.");
             }
         } while (userChoice != 13);
+        dao.writeLibrary();
     }
 
     private void printMenu() {
@@ -143,7 +145,7 @@ public class DVDLibraryController {
         for (DVD currentDVD : dvdList) {
             if (currentDVD != null) {
                 cons.displayUserString("\n" + currentDVD.getTitle());
-                cons.displayUserString(currentDVD.getReleaseDate());
+                cons.displayUserString(currentDVD.getReleaseDate().toString());
                 cons.displayUserString(currentDVD.getRating());
                 cons.displayUserString(currentDVD.getDirectorName());
                 cons.displayUserString(currentDVD.getStudio());
@@ -157,43 +159,164 @@ public class DVDLibraryController {
     }
 
     private void editDVD() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        findDVD();
+        int iDToEdit = cons.queryUserInt("Please ID number of DVD you'd like to edit:");
+        DVD temp = dao.getDVD(iDToEdit);
+        String newTitle = "";
+        String newReleaseDate;
+        LocalDate realNewReleaseDate;
+        String newRating;
+        String newDirectorName;
+        String newStudio;
+        List<String> newUserRatings = null;
+        String newComment;
+        boolean stillEditing = true;
+
+        do {
+            cons.displayUserString("\nFields to edit:");
+            cons.displayUserString("---------------");
+            cons.displayUserString("1) Title");
+            cons.displayUserString("2) Release Date");
+            cons.displayUserString("3) Rating");
+            cons.displayUserString("4) Director Name");
+            cons.displayUserString("5) Studio");
+            cons.displayUserString("6) Personal comments about film");
+            cons.displayUserString("7) Return to main menu");
+            int field = cons.queryUserInt("Which field would you like to edit?");
+
+            switch (field) {
+                case 1:
+                    newTitle = cons.queryUserString("Enter new title");
+                    temp.setTitle(newTitle);
+                    break;
+                case 2:
+                    newReleaseDate = cons.queryUserString("Enter different release date");
+                    realNewReleaseDate = LocalDate.parse(newReleaseDate);
+                    temp.setReleaseDate(realNewReleaseDate);
+                    break;
+                case 3:
+                    newRating = cons.queryUserString("Enter different rating");
+                    temp.setRating(newRating);
+                    break;
+                case 4:
+                    newDirectorName = cons.queryUserString("Enter new director name");
+                    temp.setDirectorName(newDirectorName);
+                    break;
+                case 5:
+                    newStudio = cons.queryUserString("Enter new studio");
+                    temp.setStudio(newStudio);
+                    break;
+                case 6:
+                    newComment = cons.queryUserString("Enter new personal comments");
+                    newUserRatings.add(newComment);
+                    temp.setUserRating(newUserRatings);
+                    break;
+                case 7:
+                    stillEditing = false;
+                default:
+                    stillEditing = false;
+            }
+            String moreToEdit = cons.queryUserString("Would you like to continue editing this entry? \nYes or No?");
+            if (moreToEdit.equals("Yes")) {
+                stillEditing = true;
+            } else if (moreToEdit.equals("No")) {
+                stillEditing = false;
+            }
+
+        } while (stillEditing);
+
+        dao.editDVD(iDToEdit, temp);
+
+        cons.displayUserString("Newly saved entry:");
+        cons.displayUserString(temp.getTitle());
+        cons.displayUserString(temp.getReleaseDate().toString());
+        cons.displayUserString(temp.getRating());
+        cons.displayUserString(temp.getDirectorName());
+        cons.displayUserString(temp.getStudio());
+        for (String comment : temp.getUserRating()) {
+            cons.displayUserString(comment);
+        }
+
     }
 
     private void returnAllDVDs() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List 
     }
 
     private void findAllReleasedInYear() {
-        int yearToSearch = cons.queryUserInt("Please enter year you are searching in.");
-        LocalDate.parse(yearToSearch);
-        dao.findAllMoviesReleasedInYear(yearToSearch);
+        String yearToSearch = cons.queryUserString("Please enter year you are searching in.");
+        LocalDate newYearToSearch = LocalDate.parse(yearToSearch);
+        dao.findAllMoviesReleasedInYear(newYearToSearch);
 
     }
 
     private void findAllWithRating() {
         String ratingToSearch = cons.queryUserString("Please enter rating to search by");
-        dao.findAllMoviesWithRating(ratingToSearch);
+        List<DVD> allWithRating = dao.findAllMoviesWithRating(ratingToSearch);
+        for (DVD currentDVD : allWithRating) {
+            cons.displayUserString("\n" + currentDVD.getTitle());
+            cons.displayUserString(currentDVD.getReleaseDate().toString());
+            cons.displayUserString(currentDVD.getRating());
+            cons.displayUserString(currentDVD.getDirectorName());
+            cons.displayUserString(currentDVD.getStudio());
+            for (String comment : currentDVD.getUserRating()) {
+                cons.displayUserString(comment);
+            }
+        }
+
     }
 
     private void findAllReleasedByStudio() {
         String studioToSearch = cons.queryUserString("Please enter Studio to search by");
-        dao.findAllReleasedByStudio(studioToSearch);
+        List<DVD> allByStudio = dao.findAllReleasedByStudio(studioToSearch);
+        for (DVD currentDVD : allByStudio) {
+            cons.displayUserString("\n" + currentDVD.getTitle());
+            cons.displayUserString(currentDVD.getReleaseDate().toString());
+            cons.displayUserString(currentDVD.getRating());
+            cons.displayUserString(currentDVD.getDirectorName());
+            cons.displayUserString(currentDVD.getStudio());
+            for (String comment : currentDVD.getUserRating()) {
+                cons.displayUserString(comment);
+            }
+        }
     }
 
     private void averageAgeOfMovies() {
-        dao.averageAgeOfMovies();
+        double avgAge = dao.averageAgeOfMovies();
+        cons.displayUserString("The average age of your DVDs is " + avgAge);
     }
 
     private void getNewestMovie() {
-        dao.getNewestMovie();
+        List<DVD> newestMovies = dao.getNewestMovie();
+        for (DVD currentDVD : newestMovies) {
+            cons.displayUserString("\n" + currentDVD.getTitle());
+            cons.displayUserString(currentDVD.getReleaseDate().toString());
+            cons.displayUserString(currentDVD.getRating());
+            cons.displayUserString(currentDVD.getDirectorName());
+            cons.displayUserString(currentDVD.getStudio());
+            for (String comment : currentDVD.getUserRating()) {
+                cons.displayUserString(comment);
+            }
+        }
     }
 
     private void getOldestMovie() {
-        dao.getOldestMovie();
+        List<DVD> oldestMovies = dao.getOldestMovie();
+        for (DVD currentDVD : oldestMovies) {
+            cons.displayUserString("\n" + currentDVD.getTitle());
+            cons.displayUserString(currentDVD.getReleaseDate().toString());
+            cons.displayUserString(currentDVD.getRating());
+            cons.displayUserString(currentDVD.getDirectorName());
+            cons.displayUserString(currentDVD.getStudio());
+            for (String comment : currentDVD.getUserRating()) {
+                cons.displayUserString(comment);
+
+            }
+        }
     }
 
     private void averageNumNotes() {
-        dao.averageNumPersonalNotes();
+        double avgNum = dao.averageNumPersonalNotes();
+        cons.displayUserString("You are averaging " + avgNum + " notes in the library per DVD");
     }
 }

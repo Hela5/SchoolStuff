@@ -12,7 +12,7 @@ import com.swcguild.dvdlibrarywithstreams.controller.DVDLibraryController;
  * @author apprentice
  */
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         DVDLibraryController dvdLibCont = new DVDLibraryController();
         dvdLibCont.run();
     }
