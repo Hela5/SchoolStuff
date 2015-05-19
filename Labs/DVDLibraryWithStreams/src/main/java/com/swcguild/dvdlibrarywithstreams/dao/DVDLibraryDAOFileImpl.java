@@ -115,12 +115,12 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
 
     @Override
     public List returnAllDVDs() {
-        Set<Integer> iDs = dvds.keySet();
-        List<Integer> dvdArray = new ArrayList(iDs.size());
-        for (Integer currentID : iDs) {
-            dvdArray.add(currentID);
-        }
-        return dvdArray;
+//        Set<Integer> iDs = dvds.keySet();
+//        List<Integer> dvdArray = new ArrayList(iDs.size());
+//        for (Integer currentID : iDs) {
+//            dvdArray.add(currentID);
+//        }
+        return (List) dvds.values();
     }
 
     @Override
