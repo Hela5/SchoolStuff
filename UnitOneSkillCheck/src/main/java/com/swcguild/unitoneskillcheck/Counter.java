@@ -24,16 +24,15 @@ public class Counter {
         System.out.println(count);
         System.out.println("\n");
         
-        count = to10(200);
-        System.out.println(count);
+        to10(200);
         System.out.println("\n");
     }
 
-    public static int to10(int j) {
+    public static void to10(int j) {
         int i = 0;
         for (i = 0; i < j; i++) {
             System.out.println(i);
-        } return i;
+        }
     }
 }
 // can't figure out how to implement the method when it has no parameters 

@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class InterestCalculator {
 
-    public static void main(String[] args) {
+    public void calculate() {
         Scanner sc = new Scanner(System.in);
         String stringInitAmt = "", stringInterestRate = "", stringNumYears = "", rateCompounding = "";
         double initialAmount = 0, interestRate = 0, principal = 0;

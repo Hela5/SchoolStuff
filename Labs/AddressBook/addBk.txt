@@ -1,1 +1,2 @@
-Andria::Fuquen::123 Main Street::Canton::Oh::44708
+0::Bob::Bobby::123 Main Street::North Canton::Ohio::44720
+1::elias::coke::12 case ave::sea::oh::44709

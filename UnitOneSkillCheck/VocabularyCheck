@@ -1,0 +1,44 @@
+Java Basics Vocabulary Check:
+
+1 - A variable is a piece of information that will be specifically named and then committed to memory under that name.
+
+2- The variable declaration includes the setting of the data type and creating the name for the variable. 
+
+3 - The variable's assignment is the chunk of information to be stored in it. 
+
+4 - It's quite fine to declare and assign on same line. 
+
+5 - Yes, a method can return more than one value. 
+
+6 - It will be declared as void.
+
+7 - Code blocks are marked with curly braces.
+
+8 - The method name and parameter list are the components of the method signature.
+
+9 - The method's parameters are listed in the parentheses and are placeholders for information being passed into the method. 
+
+10 - It can have 0 and upward. Though it's best to keep it reasonable.
+
+11 - No, they don't have to be the same. 
+
+12 - Imports certain components of the Java language that perform functions key to your code (i.e. Scanners or Random number generators).
+
+13 - Classes should be named using CamelCase and preferably as nouns. 
+
+14 - Variables can also use CamelCasing but should be short yet concise ways to identify their purpose. 
+
+15 - Methods are preferably verb based and in CamelCase as well. 
+
+16 - The method body is the code within the curly braces. 
+
+17 - An Array is container for a fixed number of values, all of the same data type. 
+
+18 - The For Loop is better if you're just wanting to iterate over a set of values without a condition to prevent stopage. The While Loop has a condition at the beginning that may prevent it from continuing all the way through the code. 
+
+19 - The While loop has the condition check at the top of the loop versus the Do/While loop having the condition check at the bottom. 
+
+20 - A Switch statement allows for conditional execution based on the conditions listed within it's body. Once a case is matched it runs that specific code and then kicks out, as long as the break is properly placed. 
+
+21 - Scope is the accessiblity of a variable. If it is nested within code, it's limited versus being outside most nesting and able to accessed by the rest of the code. 
+

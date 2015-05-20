@@ -231,12 +231,21 @@ public class AddressBookController {
     private void searchByState() {
         String stateToSearch = cons.queryUserString("Please enter State you're searching by");
         Map<String, List<Address>> results = dao.searchByState(stateToSearch);
-        Set<String> citiesOfState = results.keySet();
-        Collection<List<Address>> addressesByState = results.values();
-        for (int i = 0; i < results.size(); i++) {
-            cons.displayUserString(citiesOfState[i] + addressesByState[i]);
-        
+        for (String currentCity: results.keySet()) {
+            cons.displayUserString(currentCity);
+            for (Address thisAddress : results.get(currentCity)) {
+                
             }
+        }
+        
+        
+        
+//        Set<String> citiesOfState = results.keySet();
+//        Collection<List<Address>> addressesByState = results.values();
+//        for (int i = 0; i < results.size(); i++) {
+//            cons.displayUserString(citiesOfState[i] + addressesByState[i]);
+//        
+//            }
             
         }
     

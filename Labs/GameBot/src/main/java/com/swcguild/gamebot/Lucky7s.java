@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.swcguild.lucky7s;
+package com.swcguild.gamebot;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -12,9 +12,9 @@ import java.util.Scanner;
  *
  * @author apprentice
  */
-public class Lucky7s {
-
-    public static void main(String[] args) {
+public class Lucky7s implements Game {
+    @Override
+    public void run() {
         int money = 0;
         int maxMoney = 0;
         int dice1 = 0;
@@ -50,6 +50,12 @@ public class Lucky7s {
                 "You are broke after " + (rolls - 1) + " rolls.");
         System.out.println(
                 "You should have quit after " + maxRolls + " rolls when you had" + " $" + maxMoney);
+    }
+
+ 
+    @Override
+    public String getGameName() {
+     return "Lucky 7's";
     }
 
 }

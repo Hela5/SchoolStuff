@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class Lucky7s {
 
-    public static void main(String[] args) {
+    public void getLucky() {
         int money = 0;
         int maxMoney = 0;
         int dice1 = 0;

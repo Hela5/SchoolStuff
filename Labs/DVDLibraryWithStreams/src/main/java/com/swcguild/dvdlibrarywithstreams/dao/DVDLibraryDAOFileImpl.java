@@ -94,15 +94,14 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
     public DVD getDVD(int iD) {
         return dvds.get(iD);
     }
-    
-      @Override
+
+    @Override
     public List getDVD(String title) {
         return dvds.values()
                 .stream()
                 .filter(s -> s.getTitle().equals(title))
-                .collect(Collectors.toList());    
+                .collect(Collectors.toList());
     }
-    
 
     @Override
     public void addDVD(DVD dvd) {
@@ -167,12 +166,16 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
 
     @Override
     public List<DVD> getNewestMovie() {
-        long youngestAge = dvds.values()
+        List<DVD> canBeSorted = dvds.values()
+                .stream()
+                .filter(d -> d.getDVDAge() != null)
+                .collect(Collectors.toList());
+        long youngestAge = canBeSorted
                 .stream()
                 .mapToLong(DVD::getDVDAge)
                 .min()
                 .getAsLong();
-        return dvds.values()
+        return canBeSorted
                 .stream()
                 .filter(s -> s.getDVDAge() == youngestAge)
                 .collect(Collectors.toList());
@@ -182,6 +185,10 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
     public List<DVD> getOldestMovie() {
         long oldestAge = dvds.values()
                 .stream()
+                .filter(d -> {
+                    Integer res = d.getDVDAge();
+                    return res != null;
+                })
                 .mapToLong(DVD::getDVDAge)
                 .max()
                 .getAsLong();
@@ -200,7 +207,5 @@ public class DVDLibraryDAOFileImpl implements DVDLibraryDAO {
                 .average()
                 .getAsDouble();
     }
-
-  
 
 }

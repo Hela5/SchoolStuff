@@ -95,14 +95,14 @@ public class DVDLibraryDAOGetNewestMovieTest {
         
     }
     
-//    @Test
-//    public void getNewestNullMovieTest() {
-//        dao = new DVDLibraryDAOFileImpl();
-//        
-//        dao.addDVD(d3);
-//        d3.setReleaseDate(null);
-//        List fromDAO = dao.getNewestMovie();
-//        assertEquals(0, fromDAO.size());
-//               
-//    }
+    @Test
+    public void getNewestNullMovieTest() {
+        dao = new DVDLibraryDAOFileImpl();
+        
+        dao.addDVD(d3);
+        d3.setReleaseDate(null);
+        List fromDAO = dao.getNewestMovie();
+        assertEquals(0, fromDAO.size());
+               
+    }
 }

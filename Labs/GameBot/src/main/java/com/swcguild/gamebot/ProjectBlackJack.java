@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.swcguild.forloops;
+package com.swcguild.gamebot;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -12,9 +12,10 @@ import java.util.Scanner;
  *
  * @author apprentice
  */
-public class ProjectBlackJack {
+public class ProjectBlackJack implements Game {
 
-    public static void main(String[] args) {
+    @Override
+    public void run() {
         Scanner sc = new Scanner(System.in);
         Random r = new Random();
         int compCard1 = 0, compCard2 = 0, newUserSum = 0, newCompSum = 0, sumCompCards = 0;
@@ -75,4 +76,10 @@ public class ProjectBlackJack {
             }
         } while (newUserSum < 21 && newCompSum < 21);
     }
+
+    @Override
+    public String getGameName() {
+        return "Project BlackJack";
+    }
+
 }

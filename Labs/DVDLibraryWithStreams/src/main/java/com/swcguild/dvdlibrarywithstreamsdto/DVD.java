@@ -126,10 +126,13 @@ public class DVD {
         this.releaseDate = releaseDate;
     }
 
-    public int getDVDAge() {
-        Period p = releaseDate.until((LocalDate.now()));
-        return p.getYears();
+    public Integer getDVDAge() {
+        if (releaseDate != null) {
+            Period p = releaseDate.until((LocalDate.now()));
+            return p.getYears();
+        } else {
+            return null;
+        }
     }
-    
-    
+
 }

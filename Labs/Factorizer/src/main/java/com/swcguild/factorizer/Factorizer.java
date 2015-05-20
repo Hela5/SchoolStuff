@@ -11,9 +11,9 @@ import java.util.Scanner;
  *
  * @author apprentice
  */
-public class factorizer {
+public class Factorizer {
 
-    public static void main(String[] args) {
+    public void factor() {
         Scanner sc = new Scanner(System.in);
 
         int num = 0, factor = 0, factorSum = 0;

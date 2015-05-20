@@ -38,15 +38,20 @@ public class AddressBookFileImpl implements AddressDAO {
             currentTokens = currentLine.split(DELIMITER);
 
             Address currentAddress = new Address();
-            currentAddress.setFirstName(currentTokens[0]);
-            currentAddress.setLastName(currentTokens[1]);
-            currentAddress.setStreetAddress(currentTokens[2]);
-            currentAddress.setCity(currentTokens[3]);
-            currentAddress.setState(currentTokens[4]);
-            currentAddress.setZipCode(Integer.parseInt(currentTokens[5]));
-            addressB.put(iD, currentAddress);
+            currentAddress.setiD(Integer.parseInt(currentTokens[0]));
+            currentAddress.setFirstName(currentTokens[1]);
+            currentAddress.setLastName(currentTokens[2]);
+            currentAddress.setStreetAddress(currentTokens[3]);
+            currentAddress.setCity(currentTokens[4]);
+            currentAddress.setState(currentTokens[5]);
+            currentAddress.setZipCode(Integer.parseInt(currentTokens[6]));
+            addressB.put(currentAddress.getiD(), currentAddress);
+            if (currentAddress.getiD() > iD) {
+                    iD = currentAddress.getiD();
+            }
         }
         sc.close();
+        iD++;
 
     }
 
@@ -55,7 +60,8 @@ public class AddressBookFileImpl implements AddressDAO {
         PrintWriter out = new PrintWriter(new FileWriter(ADDRESSBOOK_FILE));
 
         for (int i = 0; i < addressB.size(); i++) {
-            out.println(this.getAddress(i).getFirstName() + DELIMITER
+            out.println(this.getAddress(i).getiD() + DELIMITER 
+                    + this.getAddress(i).getFirstName() + DELIMITER
                     + this.getAddress(i).getLastName() + DELIMITER
                     + this.getAddress(i).getStreetAddress() + DELIMITER
                     + this.getAddress(i).getCity() + DELIMITER

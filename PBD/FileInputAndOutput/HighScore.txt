@@ -1,0 +1,4 @@
+You got a high score!
+Please enter your score: 234
+Please enter your name: andria
+Data stored into HighScore.txt

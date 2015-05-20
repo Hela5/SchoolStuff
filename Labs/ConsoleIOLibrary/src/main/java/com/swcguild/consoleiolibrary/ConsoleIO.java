@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.swcguild.consoleio;
+package com.swcguild.consoleiolibrary;
 
 import java.util.Scanner;
 

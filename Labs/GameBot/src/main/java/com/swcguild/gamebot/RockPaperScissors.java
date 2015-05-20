@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.swcguild.rockpaperscissors;
+package com.swcguild.gamebot;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -12,9 +12,9 @@ import java.util.Scanner;
  *
  * @author apprentice
  */
-public class RockPaperScissorsStep4 {
-
-    public static void main(String[] args) {
+public class RockPaperScissors implements Game {
+    @Override
+    public  void run() {
         String stringUserVal = "", stringCompVal = "", stringNumRounds = "";
         int compVal = 0, userVal = 0, numRounds = 0, compWins = 0, userWins = 0, ties = 0;
         boolean playAgain = true;
@@ -119,6 +119,12 @@ public class RockPaperScissorsStep4 {
             } else {
                 System.out.println("The Computer beat the User!");
             }
+    }
+
+
+    @Override
+    public String getGameName() {
+    return "Rock, Paper, Scissors";
     }
     
 }
