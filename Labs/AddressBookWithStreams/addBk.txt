@@ -1,3 +1,2 @@
 0::Carrie::Sigh::123 Main Street::Akron::TX::44232
 1::Harry::Tie::123 Main Street::Akron::FL::44232
-2::Sarah::Smith::123 Main Street::Canton::Oh::44708

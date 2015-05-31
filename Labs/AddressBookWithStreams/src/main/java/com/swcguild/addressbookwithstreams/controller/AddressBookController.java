@@ -234,7 +234,6 @@ public class AddressBookController {
         for (String currentCity: results.keySet()) {
             cons.displayUserString(currentCity);
             for (Address thisAddress : results.get(currentCity)) {
-                
             }
         }
         
