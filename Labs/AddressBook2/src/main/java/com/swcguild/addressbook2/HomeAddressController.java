@@ -79,7 +79,7 @@ public class HomeAddressController {
         return "redirect:displayAddList";
     }
 
-    @RequestMapping(value = "displayEditAddForm", method = RequestMethod.POST)
+    @RequestMapping(value = "displayEditAddForm", method = RequestMethod.GET)
     public String displayEditAddForm(HttpServletRequest req, Model model) {
         int addressId = Integer.parseInt(req.getParameter("addId"));
         Address address = dao.getAddress(addressId);
@@ -113,12 +113,7 @@ public class HomeAddressController {
         if (searchBy.equals("city")) {
             aList = dao.searchByCity(searchVal);
         } else if (searchBy.equals("state")) {
-            addMap = dao.searchByState(searchBy);
-           Collection<List<Address>> these = addMap.values();
-           for (String currentCity : addMap.keySet()) {
-               aList = addMap.get(currentCity);
-           }
-           
+            aList = dao.searchByState(searchVal);
         } else if (searchBy.equals("zipCode")) {
             aList = dao.searchByZipCode(Integer.parseInt(searchVal));
         }

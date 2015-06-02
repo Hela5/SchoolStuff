@@ -36,7 +36,7 @@ public interface AddressBookDAO {
     
     public List<Address> searchByCity(String city);
     
-    public Map<String, List<Address>> searchByState(String state);
+    public List<Address> searchByState(String state);
     
     public List<Address> searchByZipCode(int zipCode);
 }

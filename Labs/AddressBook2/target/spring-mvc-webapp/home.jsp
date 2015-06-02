@@ -21,7 +21,7 @@
                 <ul class="nav nav-tabs">
                     <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/displayAddList">Addresses</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/searchResults">Search</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/searchAddForm">Search</a></li>
 
                 </ul>    
             </div>

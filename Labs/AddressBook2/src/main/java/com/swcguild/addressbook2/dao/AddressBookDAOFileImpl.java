@@ -132,11 +132,11 @@ public class AddressBookDAOFileImpl implements AddressBookDAO {
     }
 
     @Override
-    public Map<String, List<Address>> searchByState(String state) {
+    public List<Address> searchByState(String state) {
         return addresses.values()
                 .stream()
                 .filter(s -> s.getState().equals(state))
-                .collect(Collectors.groupingBy(Address::getCity));
+                .collect(Collectors.toList());
 
     }
 
