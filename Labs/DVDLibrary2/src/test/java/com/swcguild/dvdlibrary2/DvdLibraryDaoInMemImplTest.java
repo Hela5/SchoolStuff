@@ -54,7 +54,7 @@ public class DvdLibraryDaoInMemImplTest {
         d1.setDirector("Juan Jose");
         d1.setMpaaRating("G");
         d1.setStudio("That place");
-        d1.setReleaseDate(LocalDate.parse("2001-12-05"));
+        d1.setReleaseDate("2001-12-05");
         d1.setNote("Great cinematography");
 
         d2 = new Dvd();
@@ -63,7 +63,7 @@ public class DvdLibraryDaoInMemImplTest {
         d2.setDirector("Matilda Jose");
         d2.setMpaaRating("R");
         d2.setStudio("Happy Place");
-        d2.setReleaseDate(LocalDate.parse("2001-12-05"));
+        d2.setReleaseDate("2001-12-05");
         d2.setNote("So Funny");
 
         d3 = new Dvd();
@@ -72,7 +72,7 @@ public class DvdLibraryDaoInMemImplTest {
         d3.setDirector("That director");
         d3.setMpaaRating("PG-13");
         d3.setStudio("That place");
-        d3.setReleaseDate(LocalDate.parse("2001-12-05"));
+        d3.setReleaseDate("2001-12-05");
         d3.setNote("Tears flowed like a river");
 
     }

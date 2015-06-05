@@ -16,7 +16,7 @@ public class Dvd {
     private String title;
 //    @NotEmpty(message = "You must supply a value for Release Date.")
 //    @Length(max = 10, message = "Release Date must be no longer than 10 characters in length.")
-    private LocalDate releaseDate;
+    private String releaseDate;
     @NotEmpty(message = "You must supply a value for MPAA Rating.")
     @Length(max = 10, message = "MPAA Rating must be no longer than 10 characters in length.")
     private String mpaaRating;
@@ -46,11 +46,11 @@ public class Dvd {
         this.title = title;
     }
 
-    public LocalDate getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 

@@ -77,4 +77,10 @@ public class DvdLibraryDaoInMemImpl implements DvdLibraryDao {
         return thisDvd;
     }
 
+    @Override
+    public void update(Dvd dvd) {
+        dvds.put(dvd.getId(), dvd);
+        
+    }
+
 }

@@ -15,6 +15,7 @@ import java.util.List;
 public interface DvdLibraryDao {
     
     public void add(Dvd dvd);
+    public void update(Dvd dvd);
     public void remove(int id);
     public List<Dvd> listAll();
     public Dvd getById(int id);

@@ -59,7 +59,7 @@ public class HomeDvdController {
 
         Dvd dvd = new Dvd();
         dvd.setTitle(title);
-        dvd.setReleaseDate(LocalDate.parse(releaseDate, DateTimeFormatter.ISO_DATE));
+        dvd.setReleaseDate(releaseDate);
         dvd.setMpaaRating(mpaaRating);
         dvd.setDirector(director);
         dvd.setStudio(studio);
