@@ -37,7 +37,7 @@ public class HomeAddressController {
         this.dao = dao;
     }
 
-    @RequestMapping(value = {"/", "/home", "/displayAddList"}, method = RequestMethod.GET)
+    @RequestMapping(value =  "/displayAddList", method = RequestMethod.GET)
     public String displayAddList(Model model) {
         List<Address> aList = dao.displayAddresses();
         model.addAttribute("aList", aList);
