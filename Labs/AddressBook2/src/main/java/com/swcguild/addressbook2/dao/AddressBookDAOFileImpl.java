@@ -79,9 +79,10 @@ public class AddressBookDAOFileImpl implements AddressBookDAO {
 
     @Override
     public void addAddress(Address address) {
-        if (address.getiD() == -1) {
-            address.setiD(iD++);
-        }
+//        if (address.getiD() == -1) {
+//            address.setiD(iD++);
+//        }
+        address.setiD(iD++);
         addresses.put(address.getiD(), address);
     }
 
@@ -147,6 +148,11 @@ public class AddressBookDAOFileImpl implements AddressBookDAO {
                 .filter(s -> s.getZipCode() == zipCode)
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public void updateAddress(Address address) {
+        addresses.put(address.getiD(), address);
     }
 
 }

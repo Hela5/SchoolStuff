@@ -39,4 +39,6 @@ public interface AddressBookDAO {
     public List<Address> searchByState(String state);
     
     public List<Address> searchByZipCode(int zipCode);
+    
+    public void updateAddress(Address address);
 }

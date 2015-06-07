@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class Address {
 
-    private int iD = -1;
+    private int iD;
     @NotEmpty(message = "You must supply a value for First Name.")
     @Length(max = 50, message = "First Name must be no longer than 50 characters in length.")
     private String firstName;
